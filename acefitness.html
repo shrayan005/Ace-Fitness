@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ace Fitness | Dholahiti-26, Lalitpur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080808;
+      --red: #e8281e;
+      --red2: #b01e15;
+      --white: #f4efe9;
+      --grey: #111111;
+      --text: #a8a09a;
+      --gold: #c9a227;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3.5rem;
+      background: linear-gradient(to bottom, rgba(8,8,8,.97) 70%, transparent);
+    }
+    .nav-left { display: flex; align-items: center; gap: .8rem; text-decoration: none; }
+    .nav-left img { height: 48px; width: 48px; border-radius: 50%; object-fit: cover; }
+    .nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; color: var(--white); }
+    .nav-brand span { color: var(--red); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--text); text-decoration: none; font-size: .76rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; transition: color .2s; }
+    .nav-links a:hover { color: var(--red); }
+    .nav-cta { background: var(--red); color: #fff; padding: .55rem 1.5rem; text-decoration: none; font-weight: 700; font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background .2s; }
+    .nav-cta:hover { background: var(--red2); }
+
+    /* HERO */
+    #hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3.5rem 5rem; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: url('two.jpg') center / cover no-repeat; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(8,8,8,.93) 35%, rgba(8,8,8,.25) 75%, transparent), linear-gradient(to top, rgba(8,8,8,.88) 0%, transparent 55%); }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: .68rem; letter-spacing: 5px; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: .8rem; animation: fadeUp .7s ease both; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 13vw, 13rem); line-height: .88; letter-spacing: 2px; animation: fadeUp .8s ease .1s both; }
+    .hero-title .r { color: var(--red); }
+    .hero-sub { max-width: 460px; margin-top: 1.2rem; font-size: 1rem; color: var(--text); font-weight: 300; line-height: 1.7; animation: fadeUp .9s ease .2s both; }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; animation: fadeUp 1s ease .3s both; }
+    .btn-red { background: var(--red); color: #fff; text-decoration: none; padding: .85rem 2.4rem; font-weight: 700; font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background .2s, transform .2s; }
+    .btn-red:hover { background: var(--red2); transform: translateY(-2px); }
+    .btn-ghost { color: var(--white); text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 3px; transition: color .2s; }
+    .btn-ghost:hover { color: var(--gold); }
+    .hero-phones { position: absolute; right: 3.5rem; bottom: 5rem; z-index: 2; text-align: right; animation: fadeUp .8s ease .4s both; }
+    .hero-phones .lbl { font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text); margin-bottom: .4rem; }
+    .hero-phones a { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: var(--red); text-decoration: none; transition: color .2s; }
+    .hero-phones a:hover { color: var(--white); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* MARQUEE */
+    .mq { background: var(--red); padding: .85rem 0; overflow: hidden; }
+    .mq-track { display: flex; gap: 3rem; white-space: nowrap; animation: mq 22s linear infinite; }
+    .mq-track span { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 4px; color: rgba(255,255,255,.85); flex-shrink: 0; }
+    .mq-track .d { color: var(--gold); font-size: 1.4rem; }
+    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SECTION */
+    section { padding: 6rem 3.5rem; }
+    .stag { font-size: .64rem; letter-spacing: 4px; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: .7rem; }
+    .stitle { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem,5.5vw,4.5rem); letter-spacing: 2px; line-height: 1; }
+
+    /* GALLERY */
+    #gallery { background: var(--grey); }
+    .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 270px 270px; gap: 4px; margin-top: 3rem; }
+    .gi { overflow: hidden; position: relative; cursor: zoom-in; }
+    .gi img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s, filter .4s; filter: brightness(.8); }
+    .gi:hover img { transform: scale(1.06); filter: brightness(1); }
+    .gi.tall { grid-row: span 2; }
+    .gi .cap { position: absolute; bottom: 0; left: 0; right: 0; padding: .8rem 1rem; background: linear-gradient(to top, rgba(0,0,0,.75), transparent); font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.65); opacity: 0; transition: opacity .3s; }
+    .gi:hover .cap { opacity: 1; }
+
+    /* SERVICES */
+    #services { background: var(--black); }
+    .svc-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+    .svc-img { position: relative; }
+    .svc-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .svc-img::before { content: ''; position: absolute; inset: -8px; z-index: -1; border: 2px solid var(--red); opacity: .35; }
+    .svc-badge { position: absolute; bottom: -1.5rem; right: -1.5rem; background: var(--red); padding: 1.2rem 1.8rem; text-align: center; }
+    .svc-badge .n { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; line-height: 1; display: block; }
+    .svc-badge .l { font-size: .62rem; letter-spacing: 2px; text-transform: uppercase; }
+    .svc-list { display: flex; flex-direction: column; gap: .4rem; margin-top: 2.5rem; }
+    .svc-row { display: flex; align-items: center; gap: 1.2rem; padding: .9rem 1.2rem; border: 1px solid #1a1a1a; transition: border-color .2s, background .2s; }
+    .svc-row:hover { border-color: var(--red); background: #0e0e0e; }
+    .svc-row .ic { width: 1.6rem; height: 1.6rem; flex-shrink: 0; color: var(--red); }
+    .svc-row .ic svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .svc-row .nm { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; }
+    .svc-row .ds { font-size: .76rem; color: var(--text); font-weight: 300; }
+
+    /* EQUIPMENT */
+    #equipment { background: var(--grey); }
+    .eq-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 3.5rem; }
+    .eq-card { position: relative; overflow: hidden; aspect-ratio: 1; }
+    .eq-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s, filter .4s; filter: brightness(.72) saturate(.8); }
+    .eq-card:hover img { transform: scale(1.08); filter: brightness(1) saturate(1); }
+    .eq-lbl { position: absolute; bottom: 0; left: 0; right: 0; padding: .8rem 1rem; background: linear-gradient(to top, rgba(0,0,0,.88), transparent); font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 2px; }
+    .eq-lbl small { color: var(--red); font-size: .65rem; display: block; letter-spacing: 1px; font-family: 'Barlow', sans-serif; font-weight: 300; margin-top: .1rem; }
+
+    /* PROGRAMS */
+    #programs { background: var(--black); }
+    .prog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .prog-card { border: 1px solid #1c1c1c; padding: 2.5rem; transition: border-color .3s, transform .3s; }
+    .prog-card:hover { border-color: var(--red); transform: translateY(-4px); }
+    .prog-num { font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+    .prog-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; margin-bottom: .7rem; }
+    .prog-desc { font-size: .84rem; color: var(--text); line-height: 1.7; font-weight: 300; }
+    .prog-icon { width: 2.2rem; height: 2.2rem; margin-bottom: 1.2rem; color: var(--red); }
+    .prog-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* PRICING */
+    #pricing { background: var(--grey); }
+    .price-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2rem; margin-top: 3.5rem; }
+    .pc { border: 1px solid #222; padding: 2rem 1.5rem; position: relative; overflow: hidden; transition: border-color .3s; }
+    .pc.hot { border-color: var(--red); background: #0e0000; }
+    .pc.hot::after { content: 'BEST VALUE'; position: absolute; top: 1.2rem; right: -2rem; background: var(--red); color: #fff; font-size: .55rem; font-weight: 700; letter-spacing: 2px; padding: .25rem 2.5rem; transform: rotate(35deg); }
+    .pc:hover:not(.hot) { border-color: #2a2a2a; }
+    .pc-dur { font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text); }
+    .pc-amt { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1.1; margin: .6rem 0 .2rem; }
+    .pc-currency { font-size: 1.2rem; vertical-align: super; }
+    .pc-sub { font-size: .74rem; color: var(--text); font-weight: 300; margin-bottom: 1.8rem; }
+    .pc-feats { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .pc-feats li { font-size: .8rem; color: var(--text); font-weight: 300; display: flex; gap: .6rem; }
+    .pc-feats li::before { content: '→'; color: var(--red); flex-shrink: 0; }
+    .pc-cta { display: block; margin-top: 2rem; text-align: center; padding: .8rem; text-decoration: none; font-weight: 700; font-size: .74rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid #2a2a2a; color: var(--text); transition: all .2s; }
+    .hot .pc-cta { background: var(--red); color: #fff; border-color: var(--red); }
+    .pc-cta:hover { background: var(--red); color: #fff; border-color: var(--red); }
+    .price-extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.2rem; }
+    .pe { border: 1px solid #1a1a1a; padding: 1.8rem; }
+    .pe-title { font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 1rem; }
+    .pe-row { display: flex; justify-content: space-between; align-items: center; padding: .45rem 0; border-bottom: 1px solid #1a1a1a; font-size: .8rem; }
+    .pe-row:last-child { border-bottom: none; }
+    .pe-label { color: var(--text); font-weight: 300; }
+    .pe-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); }
+    .pe-single { font-size: 1rem; color: var(--text); font-weight: 300; margin-top: .4rem; }
+    .pe-single strong { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); vertical-align: middle; }
+    .offer-badges { display: flex; flex-direction: column; gap: .7rem; margin-top: .8rem; }
+    .offer-badge { background: #0e0000; border: 1px solid var(--red); padding: .6rem 1rem; font-size: .78rem; font-weight: 600; letter-spacing: 1px; color: var(--white); }
+    .offer-badge span { color: var(--red); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; }
+    .price-note { margin-top: 1.5rem; font-size: .7rem; color: #383838; text-align: center; }
+
+    /* CONTACT */
+    #contact { background: var(--black); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 4rem; }
+    .ht { width: 100%; border-collapse: collapse; }
+    .ht tr { border-bottom: 1px solid #161616; }
+    .ht td { padding: .85rem 0; font-size: .87rem; color: var(--text); font-weight: 300; }
+    .ht td:first-child { font-weight: 600; color: var(--white); }
+    .ht td:last-child { text-align: right; color: var(--gold); }
+    .ht .cl { color: #383838 !important; }
+    .ci-list { display: flex; flex-direction: column; gap: 1.3rem; }
+    .ci { display: flex; gap: 1rem; align-items: flex-start; }
+    .ci-icon { font-size: 1.1rem; width: 1.8rem; flex-shrink: 0; padding-top: .15rem; }
+    .ci-text { font-size: .86rem; color: var(--text); font-weight: 300; line-height: 1.65; }
+    .ci-text a { color: var(--gold); text-decoration: none; transition: color .2s; }
+    .ci-text a:hover { color: var(--red); }
+    .ci-text strong { color: var(--white); font-weight: 600; }
+
+    /* SOCIAL */
+    .social-band { background: var(--red); padding: 2.5rem 3.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .social-band-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; }
+    .soc-links { display: flex; gap: .7rem; }
+    .soc-a { padding: .55rem 1.2rem; background: rgba(255,255,255,.15); text-decoration: none; color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: .95rem; letter-spacing: 2px; transition: background .2s; }
+    .soc-a:hover { background: rgba(255,255,255,.3); }
+
+    /* MAP */
+    #map { background: var(--grey); }
+    .map-wrap { margin-top: 3rem; border: 1px solid #1a1a1a; overflow: hidden; }
+    .map-wrap iframe { width: 100%; height: 420px; display: block; filter: grayscale(40%); }
+
+    /* FOOTER */
+    footer { background: var(--black); padding: 3rem 3.5rem 2rem; border-top: 1px solid #121212; }
+    .ft-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid #121212; flex-wrap: wrap; gap: 1.5rem; }
+    .ft-logo { display: flex; align-items: center; gap: .8rem; }
+    .ft-logo img { height: 44px; width: 44px; border-radius: 50%; object-fit: cover; }
+    .ft-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; letter-spacing: 3px; }
+    .ft-brand span { color: var(--red); }
+    .ft-nav { display: flex; gap: 2rem; flex-wrap: wrap; position: static; background: none; padding: 0; }
+    .ft-nav a { color: var(--text); text-decoration: none; font-size: .76rem; letter-spacing: 1px; transition: color .2s; }
+    .ft-nav a:hover { color: var(--red); }
+    .ft-copy { margin-top: 2rem; font-size: .68rem; color: #2c2c2c; text-align: center; letter-spacing: .5px; line-height: 1.8; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .eq-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gi.tall { grid-row: span 1; }
+      .svc-layout { grid-template-columns: 1fr; }
+      .svc-img { display: none; }
+      .price-grid { grid-template-columns: repeat(3, 1fr); }
+      .price-extras { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 0 1.5rem 4rem; }
+      .hero-phones { display: none; }
+      .prog-grid, .price-grid, .contact-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .social-band { flex-direction: column; text-align: center; }
+      .ft-top { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-left">
+    <img src="Logo.jpg" alt="Ace Fitness"/>
+    <span class="nav-brand">ACE<span>.</span>FITNESS</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#equipment">Equipment</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:9860810226" class="nav-cta">Call Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Dholahiti-26, Lalitpur · Nepal</p>
+    <h1 class="hero-title">ACE<br><span class="r">FITNESS</span></h1>
+    <p class="hero-sub">Your community powerhouse gym in Lalitpur. Modern Matador equipment, expert trainers, real results.</p>
+    <div class="hero-actions">
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="btn-red">Join Today</a>
+      <a href="#gallery" class="btn-ghost">See the Gym</a>
+    </div>
+  </div>
+  <div class="hero-phones">
+    <p class="lbl">Call Us</p>
+    <a href="tel:9860810226">9860810226</a>
+    <a href="tel:9803284065">9803284065</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span>GYM</span><span class="d">✦</span><span>CARDIO</span><span class="d">✦</span><span>WEIGHT TRAINING</span><span class="d">✦</span><span>WEIGHT LOSS</span><span class="d">✦</span><span>WEIGHT GAIN</span><span class="d">✦</span><span>STRENGTH TRAINING</span><span class="d">✦</span><span>DIET CONSULTING</span><span class="d">✦</span><span>PERSONAL TRAINING</span><span class="d">✦</span><span>LALITPUR NEPAL</span><span class="d">✦</span>
+    <span>GYM</span><span class="d">✦</span><span>CARDIO</span><span class="d">✦</span><span>WEIGHT TRAINING</span><span class="d">✦</span><span>WEIGHT LOSS</span><span class="d">✦</span><span>WEIGHT GAIN</span><span class="d">✦</span><span>STRENGTH TRAINING</span><span class="d">✦</span><span>DIET CONSULTING</span><span class="d">✦</span><span>PERSONAL TRAINING</span><span class="d">✦</span><span>LALITPUR NEPAL</span><span class="d">✦</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <p class="stag">Inside Ace Fitness</p>
+  <h2 class="stitle">The Real Gym Floor</h2>
+  <div class="gallery-grid">
+    <div class="gi tall">
+      <img src="one.jpg" alt="Main training floor"/>
+      <div class="cap">Main Training Floor</div>
+    </div>
+    <div class="gi">
+      <img src="two.jpg" alt="Machine row"/>
+      <div class="cap">Matador Machine Row</div>
+    </div>
+    <div class="gi">
+      <img src="Dumbell.jpg" alt="Dumbbell rack"/>
+      <div class="cap">Free Weight Zone</div>
+    </div>
+    <div class="gi">
+      <img src="Wall.jpg" alt="Ace wall art"/>
+      <div class="cap">Ace Wall Art</div>
+    </div>
+    <div class="gi">
+      <img src="Pec_Deck_and_simth_machine.jpg" alt="Pec deck & smith machine"/>
+      <div class="cap">Pec Deck & Smith Machine</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-layout">
+    <div class="svc-img">
+      <img src="People Working out.png" alt="Members training at Ace Fitness"/>
+      <div class="svc-badge">
+        <span class="n">4.6★</span>
+        <span class="l">Google Rating</span>
+      </div>
+    </div>
+    <div>
+      <p class="stag">What We Offer</p>
+      <h2 class="stitle">Our Services</h2>
+      <div class="svc-list">
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/></svg></div><div><div class="nm">Gym</div><div class="ds">Full gym floor with modern equipment</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><path d="M12 7v5l3 3M8 10c1 .5 2.5 1 4 1s3-.5 4-1M10 20l2-5 2 5"/></svg></div><div><div class="nm">Cardio</div><div class="ds">SHUA treadmills &amp; cardio machines</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 12a2 2 0 0 1-2-2V8M20 12a2 2 0 0 0 2-2V8M2 8h3M19 8h3M7 8v8M17 8v8"/></svg></div><div><div class="nm">Weight Training</div><div class="ds">Matador machines, Smith machine, free weights</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div><div><div class="nm">Weight Loss &amp; Weight Gain</div><div class="ds">Goal-specific programming and tracking</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 12a2 2 0 0 1-2-2V8M20 12a2 2 0 0 0 2-2V8M2 8h3M19 8h3M7 8v8M17 8v8"/></svg></div><div><div class="nm">Strength Training</div><div class="ds">Compound lifts, power and endurance</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 0 10M12 2a5 5 0 0 0 0 10M3 20c0-4 4-7 9-7s9 3 9 7"/><path d="M16 14l2 2 4-4"/></svg></div><div><div class="nm">Diet Consulting</div><div class="ds">Nutrition aligned to your fitness goals</div></div></div>
+        <div class="svc-row"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></div><div><div class="nm">Personal Training</div><div class="ds">1-on-1 sessions with certified trainers</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<section id="equipment">
+  <p class="stag">Premium Equipment</p>
+  <h2 class="stitle">Built to Perform</h2>
+  <div class="eq-grid">
+    <div class="eq-card"><img src="Row.jpg" alt="Row machine"/><div class="eq-lbl">Row Machine<small>Back &amp; Lats</small></div></div>
+    <div class="eq-card"><img src="Abductors.jpg" alt="Abductors"/><div class="eq-lbl">Abductors<small>Hip &amp; Glutes</small></div></div>
+    <div class="eq-card"><img src="Preacher_Curl.jpg" alt="Preacher curl"/><div class="eq-lbl">Preacher Curl<small>Biceps</small></div></div>
+    <div class="eq-card"><img src="Hamstring_curl.jpg" alt="Hamstring curl"/><div class="eq-lbl">Hamstring Curl<small>Legs</small></div></div>
+    <div class="eq-card"><img src="Chest_press.jpg" alt="Chest press"/><div class="eq-lbl">Chest Press<small>Chest &amp; Shoulders</small></div></div>
+    <div class="eq-card"><img src="Pec_Deck_and_simth_machine.jpg" alt="Pec deck"/><div class="eq-lbl">Pec Deck &amp; Smith<small>Compound Movements</small></div></div>
+    <div class="eq-card"><img src="Dumbell.jpg" alt="Dumbbells"/><div class="eq-lbl">Dumbbell Rack<small>5 kg – 50+ kg (FitEx)</small></div></div>
+    <div class="eq-card"><img src="two.jpg" alt="Full gym"/><div class="eq-lbl">Full Floor<small>Matador Machines</small></div></div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <p class="stag">Training Programs</p>
+  <h2 class="stitle">Find Your Path</h2>
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-icon"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 12a2 2 0 0 1-2-2V8M20 12a2 2 0 0 0 2-2V8M2 8h3M19 8h3M7 8v8M17 8v8"/></svg></div>
+      <div class="prog-num">Program 01</div>
+      <div class="prog-title">Strength & Muscle</div>
+      <p class="prog-desc">Progressive overload using Matador machines, Smith machine, free weights and barbells. Build the physique you want, week by week.</p>
+    </div>
+    <div class="prog-card">
+      <div class="prog-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><path d="M12 7v5l3 3M8 10c1 .5 2.5 1 4 1s3-.5 4-1M10 20l2-5 2 5"/></svg></div>
+      <div class="prog-num">Program 02</div>
+      <div class="prog-title">Cardio & Fat Burn</div>
+      <p class="prog-desc">SHUA treadmills, HIIT circuits, and steady-state programs to torch fat and build lasting stamina.</p>
+    </div>
+    <div class="prog-card">
+      <div class="prog-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></div>
+      <div class="prog-num">Program 03</div>
+      <div class="prog-title">Personal Training</div>
+      <p class="prog-desc">Dedicated 1-on-1 coaching, a custom plan built around you, and diet consulting to accelerate your results.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <p class="stag">Membership Plans</p>
+  <h2 class="stitle">Simple, Honest Pricing</h2>
+  <div class="price-grid">
+    <div class="pc">
+      <div class="pc-dur">Per Day</div>
+      <div class="pc-amt"><span class="pc-currency">रू</span> 350</div>
+      <div class="pc-sub">drop-in · no commitment</div>
+      <ul class="pc-feats">
+        <li>Full gym floor access</li>
+        <li>Cardio & free weights</li>
+        <li>All machines</li>
+      </ul>
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="pc-cta">Join Today</a>
+    </div>
+    <div class="pc">
+      <div class="pc-dur">Monthly</div>
+      <div class="pc-amt"><span class="pc-currency">रू</span> 3,500</div>
+      <div class="pc-sub">per month · flexible</div>
+      <ul class="pc-feats">
+        <li>Full gym floor access</li>
+        <li>Cardio & free weights</li>
+        <li>All machines</li>
+      </ul>
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="pc-cta">Join Today</a>
+    </div>
+    <div class="pc hot">
+      <div class="pc-dur">3 Month Package</div>
+      <div class="pc-amt"><span class="pc-currency">रू</span> 9,000</div>
+      <div class="pc-sub">save ~14% vs monthly</div>
+      <ul class="pc-feats">
+        <li>Full gym floor access</li>
+        <li>Cardio & free weights</li>
+        <li>All machines</li>
+      </ul>
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="pc-cta">Join Today</a>
+    </div>
+    <div class="pc">
+      <div class="pc-dur">6 Month Package</div>
+      <div class="pc-amt"><span class="pc-currency">रू</span> 17,000</div>
+      <div class="pc-sub">save ~19% vs monthly</div>
+      <ul class="pc-feats">
+        <li>Full gym floor access</li>
+        <li>Cardio & free weights</li>
+        <li>All machines</li>
+      </ul>
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="pc-cta">Join Today</a>
+    </div>
+    <div class="pc">
+      <div class="pc-dur">1 Year Package</div>
+      <div class="pc-amt"><span class="pc-currency">रू</span> 28,000</div>
+      <div class="pc-sub">best value · save ~33%</div>
+      <ul class="pc-feats">
+        <li>Full gym floor access</li>
+        <li>Cardio & free weights</li>
+        <li>All machines</li>
+      </ul>
+      <a href="https://m.me/acefitnessnepal" target="_blank" class="pc-cta">Join Today</a>
+    </div>
+  </div>
+
+  <div class="price-extras">
+    <div class="pe">
+      <div class="pe-title">Admission Fee</div>
+      <div class="pe-single">One-time registration<br><strong>रू 1,000</strong></div>
+    </div>
+    <div class="pe">
+      <div class="pe-title">Locker</div>
+      <div class="pe-row"><span class="pe-label">Monthly</span><span class="pe-val">रू 300</span></div>
+      <div class="pe-row"><span class="pe-label">3 Month</span><span class="pe-val">रू 600</span></div>
+      <div class="pe-row"><span class="pe-label">6 Month</span><span class="pe-val">रू 900</span></div>
+      <div class="pe-row"><span class="pe-label">1 Year</span><span class="pe-val">रू 1,200</span></div>
+    </div>
+    <div class="pe">
+      <div class="pe-title">Special Offers</div>
+      <div class="offer-badges">
+        <div class="offer-badge"><span>10%</span> OFF for couples in every package</div>
+        <div class="offer-badge"><span>15%</span> OFF for groups of 5+ in every package</div>
+        <div class="offer-badge">Personal Training — <span>रू 700</span> / day</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="stag">Visit Us</p>
+  <h2 class="stitle">Hours & Contact</h2>
+  <div class="contact-grid">
+    <div>
+      <table class="ht">
+        <tr><td>Sunday</td><td>5:00 AM – 9:00 PM</td></tr>
+        <tr><td>Monday</td><td>5:30 AM – 9:00 PM</td></tr>
+        <tr><td>Tuesday</td><td>5:00 AM – 9:00 PM</td></tr>
+        <tr><td>Wednesday</td><td>5:00 AM – 9:00 PM</td></tr>
+        <tr><td>Thursday</td><td>5:00 AM – 9:00 PM</td></tr>
+        <tr><td>Friday</td><td>5:00 AM – 9:00 PM</td></tr>
+        <tr><td>Saturday</td><td class="cl">Closed</td></tr>
+      </table>
+    </div>
+    <div class="ci-list">
+      <div class="ci"><div class="ci-icon">📍</div><div class="ci-text"><strong>Dholahiti-26, Lalitpur 44700</strong><br>Bagmati Province, Nepal</div></div>
+      <div class="ci"><div class="ci-icon">📞</div><div class="ci-text"><a href="tel:9860810226">9860810226</a> &nbsp;/&nbsp; <a href="tel:9803284065">9803284065</a></div></div>
+      <div class="ci"><div class="ci-icon">📘</div><div class="ci-text"><a href="https://facebook.com/acefitnessnepal" target="_blank">facebook.com/acefitnessnepal</a></div></div>
+      <div class="ci"><div class="ci-icon">📸</div><div class="ci-text"><a href="https://instagram.com/acefitnessnpl" target="_blank">instagram.com/acefitnessnpl</a></div></div>
+      <div class="ci"><div class="ci-icon">✉️</div><div class="ci-text"><a href="mailto:acefitnessnpl@gmail.com">acefitnessnpl@gmail.com</a></div></div>
+      <div class="ci"><div class="ci-icon">⭐</div><div class="ci-text">4.6 / 5 on Google Maps · 56 reviews</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL BAND -->
+<div class="social-band">
+  <div class="social-band-text">Follow Us — Stay Motivated Every Day</div>
+  <div class="soc-links">
+    <a href="https://facebook.com/acefitnessnepal" target="_blank" class="soc-a">Facebook</a>
+    <a href="https://instagram.com/acefitnessnpl" target="_blank" class="soc-a">Instagram</a>
+    <a href="https://wa.me/9779860810226" target="_blank" class="soc-a">WhatsApp</a>
+    <a href="mailto:acefitnessnpl@gmail.com" class="soc-a">Email</a>
+  </div>
+</div>
+
+<!-- MAP -->
+<section id="map">
+  <p class="stag">Find Us</p>
+  <h2 class="stitle">Dholahiti-26, Lalitpur</h2>
+  <div class="map-wrap">
+    <iframe title="Ace Fitness" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.2!2d85.3265!3d27.6735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQwJzI0LjYiTiA4NcKwMTknMzUuNCJF!5e0!3m2!1sen!2snp!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-logo">
+      <img src="Logo.jpg" alt="Ace Fitness"/>
+      <span class="ft-brand">ACE<span>.</span>FITNESS</span>
+    </div>
+    <nav class="ft-nav">
+      <a href="#gallery">Gallery</a>
+      <a href="#services">Services</a>
+      <a href="#equipment">Equipment</a>
+      <a href="#programs">Programs</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+  <p class="ft-copy">
+    © 2026 Ace Fitness · Dholahiti-26, Lalitpur 44700, Nepal<br>
+    9860810226 / 9803284065 · acefitnessnpl@gmail.com
+  </p>
+</footer>
+
+</body>
+</html>
