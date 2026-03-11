@@ -35,6 +35,12 @@
     .nav-links a:hover { color: var(--red); }
     .nav-cta { background: var(--red); color: #fff; padding: .55rem 1.5rem; text-decoration: none; font-weight: 700; font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background .2s; }
     .nav-cta:hover { background: var(--red2); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; z-index: 201; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    nav.open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    nav.open .hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    nav.open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* HERO */
     #hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3.5rem 5rem; overflow: hidden; }
@@ -198,15 +204,41 @@
       .price-extras { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
+      /* Nav */
       nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-cta { display: none; }
+      .nav-links {
+        display: none;
+        position: fixed; inset: 0; z-index: 200;
+        background: rgba(8,8,8,.97);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 2.5rem;
+      }
+      nav.open .nav-links { display: flex; }
+      .nav-links a { font-size: 1.1rem; letter-spacing: 3px; }
+      .nav-links li { text-align: center; }
+      /* Sections */
       section { padding: 4rem 1.5rem; }
       #hero { padding: 0 1.5rem 4rem; }
       .hero-phones { display: none; }
+      /* Grids */
       .prog-grid, .price-grid, .contact-grid { grid-template-columns: 1fr; }
       .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-      .social-band { flex-direction: column; text-align: center; }
+      /* Social & Footer */
+      .social-band { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+      .soc-links { flex-wrap: wrap; justify-content: center; }
+      footer { padding: 2.5rem 1.5rem 1.5rem; }
       .ft-top { flex-direction: column; align-items: flex-start; }
+      .ft-nav { gap: 1.2rem; }
+      /* Map */
+      .map-wrap iframe { height: 280px; }
+    }
+    @media (max-width: 480px) {
+      .eq-grid { grid-template-columns: 1fr 1fr; }
+      .price-grid { grid-template-columns: 1fr 1fr; }
+      .price-extras { grid-template-columns: 1fr; }
+      .hero-title { font-size: clamp(3.5rem, 18vw, 6rem); }
     }
   </style>
 </head>
@@ -219,13 +251,18 @@
     <span class="nav-brand">ACE<span>.</span>FITNESS</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#equipment">Equipment</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#gallery" onclick="this.closest('nav').classList.remove('open')">Gallery</a></li>
+    <li><a href="#services" onclick="this.closest('nav').classList.remove('open')">Services</a></li>
+    <li><a href="#equipment" onclick="this.closest('nav').classList.remove('open')">Equipment</a></li>
+    <li><a href="#pricing" onclick="this.closest('nav').classList.remove('open')">Pricing</a></li>
+    <li><a href="#contact" onclick="this.closest('nav').classList.remove('open')">Contact</a></li>
   </ul>
-  <a href="tel:9860810226" class="nav-cta">Call Now</a>
+  <div class="nav-right">
+    <a href="https://m.me/acefitnessnepal" target="_blank" class="nav-cta">Message Us</a>
+    <button class="hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
